@@ -1,0 +1,2 @@
+1:在style中引用css要用@import
+2:组件不要在components里面创建，这里只放公共的东西，要自己建一个文件夹

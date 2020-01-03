@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+    <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+</head>
+<body>
+<div id="v1">
+    <!--指令-->
+    <!--1：v-once 只展示初始的值，后面即便title改变了也不跟着改变-->
+    <h1 v-once>{{title}}</h1>
+
+    <!--2：v-pre 将里面的内容原封不动的展现出来,不做任何的解析-->
+    <h1 v-pre>{{title}}</h1>
+
+    <!--2：v-cloak 当vue对象解析完成以后会删除这个属性，可以跟css的display:none配合使用-->
+    <h1 v-cloak>{{title}}</h1>
+
+
+
+    <h1 v-text="url"></h1>
+    <h1 v-html="url"></h1>
+    <div v-on:click="ss">{{site}}</div>
+    <div @click="ss">{{site}}</div>
+    <!--v-on的修饰符-->
+        <!-- stop修饰符，阻止冒泡 -->
+        <div @click="divClick()">
+            <button @click.stop="btnclick()">按钮</button>
+        </div>
+        <!-- prevent修饰符，阻止默认事件 -->
+        <form>
+            <input type="submit" @click.prevent="subClick()">
+        </form>
+        <!-- 监听某个键帽  比如说监听 enter -->
+        <input type="submit" @keyup.enter="subClick()">
+        <input type="submit" @keydown.enter="subClick()">
+        <!-- once  只执行第一次 -->
+        <button @click.once="btnclick()">按钮</button>
+
+    <!--属性绑定
+        属性绑定可以通过变量，对象，数组，函数等方式获取
+    -->
+    <div v-bind:title="title">属性绑定</div>
+    <div :title="title">属性绑定</div>
+        <!--属性绑定之绑定对象-->
+    <div class="class1" :class="{类名1：boolean,类名2：boolean}"></div>
+        <!--属性绑定之通过函数返回值获取-->
+    <div class="class1" :class="getClass()"></div>
+
+    <!--双向数据绑定-->
+    <input v-model="text">
+    <div>{{text}}</div>
+    <!--v-model的修饰符-->
+        <!--lazy：只会在失去焦点和回车的时候会触发双向绑定-->
+        <input v-model.lazy="text">
+        <!--number：强制设置为数字类型-->
+        <input v-model.number="text">
+        <!--trim：自动去除掉两边的空格-->
+        <input v-model.trim="text">
+
+
+    <!--计算属性和监听器-->
+    <input v-model="firstName">
+    <input v-model="lastName">
+    <div>{{fullName}}</div>
+
+
+    <!--条件判断-->
+    <div v-if="true">{{fullName}}</div>
+    <div v-else-if="age>=80">elseif时显示我</div>
+    <div v-else>else时显示我</div>
+
+    <!--展现-->
+    <div v-if="show">ssss</div>
+    <div v-show="show">ssss</div>
+    <!--循环  :key可以提升效率，key不能相同
+        key不用index原因是index可能会变化，比如内容增多了，但是key和item需要一一对应的
+    -->
+    <ul>
+        <li v-for="item of list" :key="item">{{item}}</li>
+    </ul>
+
+    <!--过滤器-->
+    <div>{{price|showPrice}}</div>
+
+    <!--
+        组件
+            1：每一个组件都是一个vue的实例
+            2：页面是由n个vue的实例构成的
+    -->
+    <todo-item></todo-item>
+
+    <!--组件的使用-->
+    <ul>
+        <todo-item v-for="item of list" :content="item"></todo-item>
+    </ul>
+
+    <!--
+        vue-cli
+        是一个vue官方提供的快速开发的脚手架，里面集成了webpack，已经设置好了webpack的各项初始值
+        具体使用看官方 安装模块
+    -->
+
+</div>
+<script type="text/javascript">
+
+    /*全局组件*/
+    Vue.component('todo-item',{
+        /*需要定义变量才可以通过这种方式传值*/
+        props:['content'],
+        template:"<li>{{content}}</li>"
+    })
+
+    /*局部组件*/
+    var TodoItem={
+        template:"<li>局部组件</li>"
+    }
+    var vm = new Vue({
+        el: '#v1',
+        /*局部组件需要在这里声明*/
+        components:{
+            'todo-item1':TodoItem
+        },
+        data: {
+            site: "菜鸟教程",
+            url: "<h1>www.runoob.com</h1>",
+            alexa: "10000",
+            title:"sdfsdf",
+            text:"啦啦啦",
+            firstName:"",
+            lastName:"",
+            show:"true",
+            list:[1,2,3],
+            price:80
+        },
+        methods:{
+            ss:function () {
+                alert("ss")
+            }
+        },
+        /*计算属性*/
+        computed:{
+            fullName:function () {
+                return this.firstName+this.lastName
+            }
+        },
+        /*监听器*/
+        watch:{
+            fullName:function () {
+                alert("改变了")
+            }
+        },
+        /*过滤器*/
+        filters:{
+            showPrice(price){
+                return "$"+price.toFixed(2)
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,9 +1,11 @@
 <template>
-    <div></div>
+    <div>
+
+    </div>
 </template>
 
 <script>
-// import { Swiper, SwiperItem } from "common/swiper";
+import { Swiper, SwiperItem } from "common/swiper";
 export default {
   name: "HomeSwiper",
   props: {
@@ -15,6 +17,8 @@ export default {
     }
   },
   components: {
+    Swiper,
+    SwiperItem
   }
 };
 </script>
